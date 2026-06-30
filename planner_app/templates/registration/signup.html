@@ -1,0 +1,70 @@
+{% extends 'planner_app/base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .auth-card {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 30px;
+    }
+    .auth-card h2 {
+        margin-top: 0;
+        color: #5d4037;
+    }
+    .auth-card form p {
+        margin-bottom: 15px;
+    }
+    .auth-card form input {
+        width: 100%;
+        padding: 10px 16px;
+        border-radius: 30px;
+        border: 1px solid #e0d6cd;
+        background: #fefcf9;
+        font-family: 'Nunito', sans-serif;
+    }
+    .auth-card form input:focus {
+        border-color: #ffb07c;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255,176,124,0.2);
+    }
+    .auth-card .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+        background: #a8e6cf;
+        color: #2d5a4a;
+    }
+    .auth-card .btn:hover {
+        background: #8dd4ba;
+    }
+    .auth-card .login-link {
+        text-align: center;
+        margin-top: 15px;
+        color: #4a3a35;
+    }
+    .auth-card .login-link a {
+        color: #6c9ebf;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .auth-card .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-card card">
+    <h2>📝 Регистрация</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Зарегистрироваться</button>
+    </form>
+    <div class="login-link">
+        Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'planner_app/base.html' %}
+
+{% block title %}Задача {{ task.text|truncatechars:30 }}{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .detail-card {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .detail-card h1 {
+        font-size: 1.8rem;
+        color: #5d4037;
+        margin-bottom: 20px;
+    }
+    .field {
+        margin-bottom: 20px;
+    }
+    .field label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        color: #5d4037;
+    }
+    .field input, .field textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 30px;
+        border: 1px solid #e0d6cd;
+        background: #fefcf9;
+        font-family: 'Nunito', sans-serif;
+    }
+    .field textarea {
+        height: 100px;
+        resize: vertical;
+    }
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 15px 0;
+    }
+    .checkbox-group input {
+        width: 20px;
+        height: 20px;
+        accent-color: #a8e6cf;
+    }
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .btn-group .btn {
+        padding: 10px 28px;
+    }
+    .btn-back {
+        background: #e0d6cd;
+        color: #4a3a35;
+    }
+    .btn-back:hover {
+        background: #d0c4b8;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-card">
+    <h1>✏️ Редактирование</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label for="text">Краткий текст</label>
+            <input type="text" id="text" name="text" value="{{ task.text }}" required>
+        </div>
+        <div class="field">
+            <label for="description">Подробное описание</label>
+            <textarea id="description" name="description">{{ task.description|default:'' }}</textarea>
+        </div>
+        <div class="checkbox-group">
+            <input type="checkbox" id="is_done" name="is_done" {% if task.is_done %}checked{% endif %}>
+            <label for="is_done">✅ Выполнено</label>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn">💾 Сохранить</button>
+            <a href="{% url 'week_view' %}" class="btn btn-back">← Назад к планеру</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

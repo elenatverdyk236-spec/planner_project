@@ -1,0 +1,11 @@
+2026-06-30 08:24:34,749 - INFO - autoreload - Watching for file changes with StatReloader
+2026-06-30 08:24:38,212 - INFO - log - "GET / HTTP/1.1" 302 0
+2026-06-30 08:24:38,255 - INFO - log - "GET /accounts/login/?next=/ HTTP/1.1" 200 6733
+2026-06-30 08:24:42,015 - INFO - log - "GET /signup/ HTTP/1.1" 200 7767
+2026-06-30 08:24:48,533 - INFO - log - "GET /accounts/login/ HTTP/1.1" 200 6733
+2026-06-30 08:25:00,422 - INFO - log - "POST /accounts/login/ HTTP/1.1" 200 6890
+2026-06-30 08:25:04,869 - INFO - log - "GET /signup/ HTTP/1.1" 200 7767
+2026-06-30 08:25:07,509 - INFO - log - "GET /accounts/login/ HTTP/1.1" 200 6733
+2026-06-30 08:25:21,349 - INFO - log - "POST /accounts/login/ HTTP/1.1" 302 0
+2026-06-30 08:25:21,366 - INFO - views - Пользователь Elena открыл неделю с offset=0
+2026-06-30 08:25:21,390 - INFO - log - "GET / HTTP/1.1" 200 12515

@@ -1,0 +1,160 @@
+{% extends 'planner_app/base.html' %}
+
+{% block title %}Неделя {{ week_title }}{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .week-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .week-header .nav-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .week-header .week-title {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #5d4037;
+    }
+    .week-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 15px;
+    }
+    .day-card {
+        background: white;
+        border-radius: 20px;
+        padding: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+    }
+    .day-card h3 {
+        margin: 0 0 12px 0;
+        font-size: 1rem;
+        color: #5d4037;
+        border-bottom: 2px solid #f0e3d9;
+        padding-bottom: 8px;
+    }
+    .task-item {
+        background: #fef6f0;
+        padding: 8px 12px;
+        margin: 4px 0;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: 0.1s;
+    }
+    .task-item:hover {
+        background: #fce8db;
+    }
+    .task-item a {
+        text-decoration: none;
+        color: #4a3a35;
+        flex: 1;
+    }
+    .task-item .toggle-link {
+        margin-left: 8px;
+        font-size: 0.75rem;
+        background: #e8dcd2;
+        padding: 2px 10px;
+        border-radius: 30px;
+        text-decoration: none;
+        color: #5d4037;
+        white-space: nowrap;
+    }
+    .task-item .toggle-link:hover {
+        background: #d5c4b6;
+    }
+    .no-tasks {
+        color: #b0a098;
+        font-size: 0.85rem;
+        margin: 10px 0;
+    }
+    .add-form {
+        margin-top: auto;
+        display: flex;
+        gap: 6px;
+        padding-top: 10px;
+    }
+    .add-form input[type="text"] {
+        flex: 1;
+        padding: 8px 14px;
+        border-radius: 30px;
+        border: 1px solid #e0d6cd;
+        background: #fefcf9;
+        font-size: 0.85rem;
+    }
+    .add-form button {
+        background: #ffb07c;
+        border: none;
+        color: white;
+        padding: 8px 14px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+    .add-form button:hover {
+        background: #f59a62;
+    }
+    .done {
+        background: #e0f5ec !important;
+    }
+    @media (max-width: 600px) {
+        .week-grid {
+            grid-template-columns: 1fr;
+        }
+        .week-header {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="week-header">
+    <div class="week-title">📆 {{ week_title }}</div>
+    <div class="nav-buttons">
+        <a href="?offset={{ offset|add:"-1" }}" class="btn btn-outline">← Назад</a>
+        <a href="?offset={{ offset|add:"1" }}" class="btn btn-outline">Вперёд →</a>
+    </div>
+</div>
+
+<div class="week-grid">
+    {% for day in days %}
+        <div class="day-card">
+            <h3>{{ day.date|date:"D, d M" }}</h3>
+            {% for task in day.tasks %}
+                <div class="task-item {% if task.is_done %}done{% endif %}">
+                    <a href="{% url 'task_detail' task.id %}">
+                        {{ task.text }}
+                        {% if task.is_done %} ✅{% endif %}
+                    </a>
+                    <a href="{% url 'toggle_done' task.id %}?offset={{ offset }}" class="toggle-link">
+                        {% if task.is_done %}↩️ Отменить{% else %}✔️ Выполнить{% endif %}
+                    </a>
+                </div>
+            {% empty %}
+                <div class="no-tasks">✨ Пока задач нет</div>
+            {% endfor %}
+            <form method="post" action="{% url 'add_task' %}" class="add-form">
+                {% csrf_token %}
+                <input type="hidden" name="date" value="{{ day.date|date:'Y-m-d' }}">
+                <input type="text" name="text" placeholder="Новая задача..." required>
+                <button type="submit">+</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

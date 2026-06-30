@@ -1,0 +1,65 @@
+{% extends 'planner_app/base.html' %}
+
+{% block title %}Вход в планер{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .auth-card {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 30px;
+    }
+    .auth-card h2 {
+        margin-top: 0;
+        color: #5d4037;
+    }
+    .auth-card form p {
+        margin-bottom: 15px;
+    }
+    .auth-card form input {
+        width: 100%;
+        padding: 10px 16px;
+        border-radius: 30px;
+        border: 1px solid #e0d6cd;
+        background: #fefcf9;
+        font-family: 'Nunito', sans-serif;
+    }
+    .auth-card form input:focus {
+        border-color: #ffb07c;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255,176,124,0.2);
+    }
+    .auth-card .btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1rem;
+    }
+    .auth-card .signup-link {
+        text-align: center;
+        margin-top: 15px;
+        color: #4a3a35;
+    }
+    .auth-card .signup-link a {
+        color: #6c9ebf;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .auth-card .signup-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-card card">
+    <h2>🔐 Вход</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Войти</button>
+    </form>
+    <div class="signup-link">
+        Нет аккаунта? <a href="{% url 'signup' %}">Зарегистрироваться</a>
+    </div>
+</div>
+{% endblock %}

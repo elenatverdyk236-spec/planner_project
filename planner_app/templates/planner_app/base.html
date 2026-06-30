@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой планер{% endblock %}</title>
+    <!-- Подключаем шрифт Nunito с Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Глобальные стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: #fdf6ed;
+            color: #4a3a35;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        /* Шапка */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .header h1 {
+            font-weight: 700;
+            color: #5d4037;
+            font-size: 1.8rem;
+        }
+        .header h1 span {
+            color: #ffb07c;
+        }
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+        .user-area a {
+            text-decoration: none;
+            color: #6c9ebf;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .user-area a:hover {
+            color: #4a7a9c;
+        }
+        .user-area form {
+            display: inline;
+        }
+        .user-area .logout-btn {
+            background: none;
+            border: none;
+            color: #6c9ebf;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            padding: 0;
+            transition: 0.2s;
+        }
+        .user-area .logout-btn:hover {
+            color: #4a7a9c;
+        }
+        .btn {
+            display: inline-block;
+            background: #6c9ebf;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #5a8aa8;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #6c9ebf;
+            color: #6c9ebf;
+        }
+        .btn-outline:hover {
+            background: #6c9ebf;
+            color: white;
+        }
+        .btn-success {
+            background: #a8e6cf;
+            color: #2d5a4a;
+        }
+        .btn-success:hover {
+            background: #8dd4ba;
+        }
+        /* Карточки */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.1s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        /* Адаптивность */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .user-area {
+                justify-content: space-between;
+            }
+        }
+        /* Общие стили для форм */
+        input, textarea {
+            font-family: 'Nunito', sans-serif;
+            border: 1px solid #e0d6cd;
+            border-radius: 30px;
+            padding: 10px 16px;
+            background: #fefcf9;
+            transition: 0.2s;
+        }
+        input:focus, textarea:focus {
+            border-color: #ffb07c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,176,124,0.2);
+        }
+        button {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="header">
+            <h1>📅 <span>Планер</span></h1>
+            <div class="user-area">
+                {% if user.is_authenticated %}
+                    <span>👋 {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">🚪 Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">🔑 Войти</a>
+                    <a href="{% url 'signup' %}">📝 Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Основной блок -->
+        {% block content %}
+        {% endblock %}
+
+        <!-- Подвал (опционально) -->
+        <div style="text-align: center; margin-top: 30px; color: #b0a098; font-size: 0.9rem;">
+            🕊️ Сделано с любовью
+        </div>
+    </div>
+</body>
+</html>
